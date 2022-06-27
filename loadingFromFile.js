@@ -130,6 +130,7 @@ const loadItems = () => {
 
                 const itemName = document.createElement("p");
                 itemName.className = "item-name";
+                itemName.id = "item-name-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
                 itemName.textContent = data[i].name;
 
                 const itemComposition = document.createElement("p");
@@ -234,20 +235,26 @@ const openModal = (id) => {
         tab5.className = "tab";
         tab6.className = "tab";
         modalWindow.style.display = "none";
+        activeSize = "1x"
+        activeBread = "white-italian";
     }
 
     const tab1 = document.getElementById("tab-1");
+    tab1.className = "tab-active";
     const tab2 = document.getElementById("tab-2");
     const tab3 = document.getElementById("tab-3");
     const tab4 = document.getElementById("tab-4");
     const tab5 = document.getElementById("tab-5");
     const tab6 = document.getElementById("tab-6");
+    const tabContentBlock = document.getElementsByClassName("tab-content-block")[0];
+    tabContentBlock.style.overflow = "auto";
 
     document.getElementById("total-price").textContent = document.getElementById("price-" + id).textContent;
 
     tab1.onclick = () => {
         if (selectedTab !== "sizes") {
-            //document.getElementsByClassName("items-block")[0].innerHTML = '';
+            tabContentBlock.style.overflow = "auto";
+
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
                 activeTab.className = "tab"
@@ -259,6 +266,7 @@ const openModal = (id) => {
     }
     tab2.onclick = () => {
         if (selectedTab !== "breads") {
+            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -272,6 +280,7 @@ const openModal = (id) => {
 
     tab3.onclick = () => {
         if (selectedTab !== "vegetables") {
+            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -285,6 +294,7 @@ const openModal = (id) => {
 
     tab4.onclick = () => {
         if (selectedTab !== "sauces") {
+            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -298,6 +308,7 @@ const openModal = (id) => {
 
     tab5.onclick = () => {
         if (selectedTab !== "fillings") {
+            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -311,8 +322,9 @@ const openModal = (id) => {
 
     tab6.onclick = () => {
         if (selectedTab !== "ready") {
-            const tabContentBlock = document.getElementsByClassName("tab-content-block")[0];
+            tabContentBlock.style.overflow = "auto";
             tabContentBlock.innerHTML = '';
+
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
                 activeTab.className = "tab";
@@ -343,7 +355,7 @@ const openModal = (id) => {
 
             const finalOrderSizeValue = document.createElement("p");
             finalOrderSizeValue.className = "final-order-size-value";
-            finalOrderSizeValue.textContent = "";  // !!!!!!!!!!!!! 
+            finalOrderSizeValue.textContent = 15 + " См";  // !!!!!!!!!!!!! 
 
             const finalOrderBread = document.createElement("div");
             finalOrderBread.className = "final-order-bread";
@@ -354,7 +366,7 @@ const openModal = (id) => {
 
             const finalOrderBreadValue = document.createElement("p");
             finalOrderBreadValue.className = "final-order-bread-value";
-            finalOrderBreadValue.textContent = ""; // !!!!!!!!!!!!!
+            finalOrderBreadValue.textContent = "Белый итальянский"; // !!!!!!!!!!!!!
 
             const finalOrderVegetables = document.createElement("div");
             finalOrderVegetables.className = "final-order-vegetables";
@@ -365,7 +377,7 @@ const openModal = (id) => {
 
             const finalOrderVegetablesValue = document.createElement("p");
             finalOrderVegetablesValue.className = "final-order-vegetables-value";
-            finalOrderVegetablesValue.textContent = ""; // !!!!!!!!!!
+            finalOrderVegetablesValue.textContent = "Нет"; // !!!!!!!!!!
 
             const finalOrderSauces = document.createElement("div");
             finalOrderSauces.className = "final-order-sauces";
@@ -376,7 +388,7 @@ const openModal = (id) => {
 
             const finalOrderSaucesValue = document.createElement("p");
             finalOrderSaucesValue.className = "final-order-sauces-value";
-            finalOrderSaucesValue.textContent = ""; // !!!!!!!!!!!
+            finalOrderSaucesValue.textContent = "Нет"; // !!!!!!!!!!!
 
             const finalOrderFilling = document.createElement("div");
             finalOrderFilling.className = "final-order-filling";
@@ -387,11 +399,11 @@ const openModal = (id) => {
 
             const finalOrderFillingValue = document.createElement("p");
             finalOrderFillingValue.className = "final-order-filling-value";
-            finalOrderFillingValue.textContent = ""; // !!!!!!!!
+            finalOrderFillingValue.textContent = "Нет"; // !!!!!!!!
 
             const finalOrderTitle = document.createElement("p");
             finalOrderTitle.className = "final-order-title";
-            finalOrderTitle.textContent = ""; // !!!!!!!!!
+            finalOrderTitle.textContent = document.getElementById("item-name-" + id).textContent; // !!!!!!!!!
 
             tabContentBlock.appendChild(imageBlock);
             imageBlock.appendChild(resultImage);
@@ -424,6 +436,9 @@ const openModal = (id) => {
     }
 }
 
+let activeSize = "1x"
+let activeBread = "white-italian";
+
 const loadIngredients = () => {
     fetch("data.json")
         .then(response => response.json())
@@ -432,7 +447,14 @@ const loadIngredients = () => {
             for (let key in data[selectedTab]) {
                 const tabContent = document.getElementsByClassName("tab-content-block")[0];
                 const item = document.createElement("div");
-                item.className = "item";
+
+                if (activeSize === key || activeBread === key) {
+                    item.className = "modal-item-active"
+                } else {
+                    item.className = "modal-item";
+                }
+                item.id = key;
+
                 const itemImage = document.createElement("img");
                 itemImage.className = "item-image";
                 itemImage.src = data[selectedTab][key]["image"];
@@ -456,6 +478,32 @@ const loadIngredients = () => {
                 const priceCurrency = document.createElement("p");
                 priceCurrency.className = "price-currency";
                 priceCurrency.textContent = "руб.";
+
+                item.onclick = () => {
+                    if (selectedTab === "sizes" || selectedTab === "breads") {
+                        const itemActive = document.getElementsByClassName("modal-item-active")[0];
+                        const previousElement = document.getElementsByClassName("modal-item-active")[0];
+                        const previousElementPrice = document.getElementById("price-" + previousElement.id);
+                        if (itemActive) {
+                            itemActive.className = "modal-item";
+                        }
+                        item.className = "modal-item-active";
+                        if (selectedTab === "sizes") {
+                            activeSize = key;
+                        }
+                        if (selectedTab === "breads") {
+                            activeBread = key;
+                        }
+                        document.getElementById("total-price").textContent -= previousElementPrice.textContent;
+                        document.getElementById("total-price").textContent -= -priceValue.textContent;
+                    } else {
+                        item.className = "modal-item-active";
+                        // сделать возможность выделять несколько ингредиентов так, чтобы они не удалялись при переключении вкладок
+                        // скорее всего тут нужно создать переменную, где будут храниться айдишники выделенных файлов
+                        // и искать их надо будет в этой переменной через indexOf
+                    }
+
+                }
 
                 tabContent.appendChild(item);
                 item.appendChild(itemImage);
