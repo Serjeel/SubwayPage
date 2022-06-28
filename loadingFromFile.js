@@ -235,8 +235,6 @@ const openModal = (id) => {
         tab5.className = "tab";
         tab6.className = "tab";
         modalWindow.style.display = "none";
-        activeSize = "1x"
-        activeBread = "white-italian";
     }
 
     const tab1 = document.getElementById("tab-1");
@@ -247,13 +245,11 @@ const openModal = (id) => {
     const tab5 = document.getElementById("tab-5");
     const tab6 = document.getElementById("tab-6");
     const tabContentBlock = document.getElementsByClassName("tab-content-block")[0];
-    tabContentBlock.style.overflow = "auto";
 
     document.getElementById("total-price").textContent = document.getElementById("price-" + id).textContent;
 
     tab1.onclick = () => {
         if (selectedTab !== "sizes") {
-            tabContentBlock.style.overflow = "auto";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -266,7 +262,6 @@ const openModal = (id) => {
     }
     tab2.onclick = () => {
         if (selectedTab !== "breads") {
-            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -280,7 +275,6 @@ const openModal = (id) => {
 
     tab3.onclick = () => {
         if (selectedTab !== "vegetables") {
-            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -294,7 +288,6 @@ const openModal = (id) => {
 
     tab4.onclick = () => {
         if (selectedTab !== "sauces") {
-            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -308,7 +301,6 @@ const openModal = (id) => {
 
     tab5.onclick = () => {
         if (selectedTab !== "fillings") {
-            tabContentBlock.style.overflow = "scroll";
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -322,7 +314,6 @@ const openModal = (id) => {
 
     tab6.onclick = () => {
         if (selectedTab !== "ready") {
-            tabContentBlock.style.overflow = "auto";
             tabContentBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
@@ -355,7 +346,7 @@ const openModal = (id) => {
 
             const finalOrderSizeValue = document.createElement("p");
             finalOrderSizeValue.className = "final-order-size-value";
-            finalOrderSizeValue.textContent = 15 + " См";  // !!!!!!!!!!!!! 
+            finalOrderSizeValue.textContent = finalSize;
 
             const finalOrderBread = document.createElement("div");
             finalOrderBread.className = "final-order-bread";
@@ -366,7 +357,7 @@ const openModal = (id) => {
 
             const finalOrderBreadValue = document.createElement("p");
             finalOrderBreadValue.className = "final-order-bread-value";
-            finalOrderBreadValue.textContent = "Белый итальянский"; // !!!!!!!!!!!!!
+            finalOrderBreadValue.textContent = finalBread;
 
             const finalOrderVegetables = document.createElement("div");
             finalOrderVegetables.className = "final-order-vegetables";
@@ -377,7 +368,7 @@ const openModal = (id) => {
 
             const finalOrderVegetablesValue = document.createElement("p");
             finalOrderVegetablesValue.className = "final-order-vegetables-value";
-            finalOrderVegetablesValue.textContent = "Нет"; // !!!!!!!!!!
+            finalOrderVegetablesValue.textContent = finalVegetables;
 
             const finalOrderSauces = document.createElement("div");
             finalOrderSauces.className = "final-order-sauces";
@@ -388,8 +379,7 @@ const openModal = (id) => {
 
             const finalOrderSaucesValue = document.createElement("p");
             finalOrderSaucesValue.className = "final-order-sauces-value";
-            finalOrderSaucesValue.textContent = "Нет"; // !!!!!!!!!!!
-
+            finalOrderSaucesValue.textContent = finalSauces;
             const finalOrderFilling = document.createElement("div");
             finalOrderFilling.className = "final-order-filling";
 
@@ -399,11 +389,65 @@ const openModal = (id) => {
 
             const finalOrderFillingValue = document.createElement("p");
             finalOrderFillingValue.className = "final-order-filling-value";
-            finalOrderFillingValue.textContent = "Нет"; // !!!!!!!!
+            finalOrderFillingValue.textContent = finalFillings;
 
             const finalOrderTitle = document.createElement("p");
             finalOrderTitle.className = "final-order-title";
-            finalOrderTitle.textContent = document.getElementById("item-name-" + id).textContent; // !!!!!!!!!
+            finalOrderTitle.textContent = document.getElementById("item-name-" + id).textContent;
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////
+            const modalFooter = document.getElementsByClassName("modal-footer")[0];
+            modalFooter.id = "item-modal";
+
+            const itemAmount = document.createElement("p");
+            itemAmount.className = "item-amount";
+            itemAmount.textContent = "Количество";
+
+            const amountBlock = document.createElement("div");
+            amountBlock.className = "amount-block";
+
+            const minusIcon = document.createElement("img");
+            minusIcon.className = "minus-icon";
+            // minusIcon.id = "minus-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
+            minusIcon.src = "i/minus.svg";
+            minusIcon.onclick = () => {
+                minusClick(modalFooter);
+            }
+
+            const itemCounter = document.createElement("input");
+            itemCounter.className = "item-counter";
+            itemCounter.type = "text";
+            itemCounter.id = "counter-" + "modal";
+            itemCounter.value = 1;
+
+            const plusIcon = document.createElement("img");
+            plusIcon.className = "plus-icon";
+            // plusIcon.id = "plus-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
+            plusIcon.src = "i/plus.svg";
+            plusIcon.onclick = () => {
+                plusClick(modalFooter);
+            }
+
+            const itemButton = document.createElement("button");
+            itemButton.className = "item-button";
+            //itemButton.id = "button-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
+            itemButton.textContent = "В КОРЗИНУ";
+            itemButton.onclick = () => {
+                addToBasket(itemButton);
+            }
+
+            modalFooter.appendChild(itemAmount);
+
+            modalFooter.appendChild(amountBlock);
+            amountBlock.appendChild(minusIcon);
+            amountBlock.appendChild(itemCounter);
+            amountBlock.appendChild(plusIcon);
+
+            modalFooter.appendChild(itemButton);
+
+            // доработать footer и сделать добавление в корзину итогового продукта
+
+            //////////////////////////////////////////////////////////////////////////////////////////////
 
             tabContentBlock.appendChild(imageBlock);
             imageBlock.appendChild(resultImage);
@@ -438,6 +482,16 @@ const openModal = (id) => {
 
 let activeSize = "1x"
 let activeBread = "white-italian";
+let activeVegetables = [];
+let activeSauces = [];
+let activeFillings = [];
+
+let finalSize = "15 См";
+let finalBread = "Белый итальянский";
+let finalVegetables = ["Нет"];
+let finalSauces = ["Нет"];
+let finalFillings = ["Нет"];
+
 
 const loadIngredients = () => {
     fetch("data.json")
@@ -450,9 +504,12 @@ const loadIngredients = () => {
 
                 if (activeSize === key || activeBread === key) {
                     item.className = "modal-item-active"
+                } else if (activeVegetables.includes(key) || activeSauces.includes(key) || activeFillings.includes(key)) {
+                    item.className = "modal-item-active"
                 } else {
-                    item.className = "modal-item";
+                    item.className = "modal-item"
                 }
+
                 item.id = key;
 
                 const itemImage = document.createElement("img");
@@ -461,6 +518,7 @@ const loadIngredients = () => {
 
                 const itemName = document.createElement("p");
                 itemName.className = "item-name";
+                itemName.id = "name-" + key;
                 itemName.textContent = data[selectedTab][key]["name"];
 
                 const itemPriceBlock = document.createElement("div");
@@ -480,29 +538,105 @@ const loadIngredients = () => {
                 priceCurrency.textContent = "руб.";
 
                 item.onclick = () => {
+                    const totalPrice = document.getElementById("total-price");
+                    const itemActive = document.getElementsByClassName("modal-item-active")[0];
+                    const previousElement = document.getElementsByClassName("modal-item-active")[0];
+
                     if (selectedTab === "sizes" || selectedTab === "breads") {
-                        const itemActive = document.getElementsByClassName("modal-item-active")[0];
-                        const previousElement = document.getElementsByClassName("modal-item-active")[0];
-                        const previousElementPrice = document.getElementById("price-" + previousElement.id);
                         if (itemActive) {
                             itemActive.className = "modal-item";
                         }
                         item.className = "modal-item-active";
                         if (selectedTab === "sizes") {
                             activeSize = key;
+                            finalSize = document.getElementById('name-' + key).textContent;
                         }
                         if (selectedTab === "breads") {
                             activeBread = key;
+                            finalBread = document.getElementById('name-' + key).textContent;
                         }
-                        document.getElementById("total-price").textContent -= previousElementPrice.textContent;
-                        document.getElementById("total-price").textContent -= -priceValue.textContent;
-                    } else {
-                        item.className = "modal-item-active";
-                        // сделать возможность выделять несколько ингредиентов так, чтобы они не удалялись при переключении вкладок
-                        // скорее всего тут нужно создать переменную, где будут храниться айдишники выделенных файлов
-                        // и искать их надо будет в этой переменной через indexOf
-                    }
 
+                        if (previousElement) {
+                            const previousElementPrice = document.getElementById("price-" + previousElement.id);
+                            totalPrice.textContent -= previousElementPrice.textContent;
+                            totalPrice.textContent -= -priceValue.textContent;
+                        }
+
+                    } else {
+                        if (item.className === "modal-item-active") {
+                            item.className = "modal-item";
+
+                            if (selectedTab === "vegetables") {
+                                const i = activeVegetables.indexOf(key);
+                                activeVegetables.splice(i, 1);
+                                totalPrice.textContent -= priceValue.textContent;
+                                finalVegetables.splice(i, 1);
+                                console.log(finalVegetables);
+                                if (finalVegetables.length === 0) {
+                                    finalVegetables.push("Нет");
+                                }
+                            }
+                            if (selectedTab === "sauces") {
+                                const i = activeSauces.indexOf(key);
+                                activeSauces.splice(i, 1);
+                                totalPrice.textContent -= priceValue.textContent;
+                                finalSauces.splice(i, 1);
+
+                                if (finalSauces.length === 0) {
+                                    finalSauces.push("Нет");
+                                }
+                            }
+                            if (selectedTab === "fillings") {
+                                const i = activeFillings.indexOf(key);
+                                activeFillings.splice(i, 1);
+                                totalPrice.textContent -= priceValue.textContent;
+                                finalFillings.splice(i, 1);
+
+                                if (finalFillings.length === 0) {
+                                    finalFillings.push("Нет");
+                                }
+                            }
+                        } else {
+                            item.className = "modal-item-active";
+
+                            if (selectedTab === "vegetables") {
+                                activeVegetables.push(key);
+                                totalPrice.textContent -= -priceValue.textContent;
+
+                                if (finalVegetables.includes("Нет")) {
+                                    finalVegetables = [];
+                                }
+
+                                finalVegetables.push(" " + document.getElementById('name-' + key).textContent);
+                                console.log(" " + finalVegetables);
+                            }
+                            if (selectedTab === "sauces") {
+                                activeSauces.push(key);
+                                totalPrice.textContent -= -priceValue.textContent;
+
+                                if (finalSauces.includes("Нет")) {
+                                    finalSauces = [];
+                                }
+
+                                finalSauces.push(" " + document.getElementById('name-' + key).textContent);
+                                console.log(" " + finalSauces);
+                            }
+                            if (selectedTab === "fillings") {
+                                activeFillings.push(key);
+                                totalPrice.textContent -= -priceValue.textContent;
+
+                                console.log(finalFillings);
+
+                                if (finalFillings.includes("Нет")) {
+                                    finalFillings = [];
+                                }
+
+                                finalFillings.push(" " + document.getElementById('name-' + key).textContent);
+                                console.log(" " + finalFillings);
+                            }
+                        }
+                        // теперь добавить суммирование цен и инфу на странице Готово
+                    }
                 }
 
                 tabContent.appendChild(item);
