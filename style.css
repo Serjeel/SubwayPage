@@ -355,13 +355,17 @@ body {
     cursor: pointer;
 }
 
+.modal-tabs-block {
+    height: 50px;
+    margin-top: 15px;
+}
+
 .modal-tabs {
     width: 800px;
-    height: 70px;
+    height: 50px;
     display: flex;
     justify-content: center;
     background-color: white;
-    margin-top: 30px;
     cursor: pointer;
     border-radius: 5px;
     overflow: hidden;
@@ -391,10 +395,28 @@ body {
     background-color: #D96746;
 }
 
+.arrows-block {
+    display: flex;  
+    justify-content: space-between;
+    width: 800px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.arrow {
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    background-color: #D96746;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 .tab-content-block {
     background-color: gainsboro;
     width: 85%;
-    height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     overflow: auto;
@@ -439,7 +461,6 @@ body {
 .final-order-block {
     width: 450px;
     height: 270px;
-    margin-top: 10px;
     margin-left: 30px;
 }
 
@@ -496,7 +517,13 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: white;
-    margin-top: -15px;
+    margin-top: auto;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+
+.modal-order-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

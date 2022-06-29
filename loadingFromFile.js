@@ -98,6 +98,8 @@ category7.onclick = () => {
     }
 }
 
+let counterValue = 1;
+
 const loadItems = () => {
     fetch("data.json")
         .then(response => response.json())
@@ -235,6 +237,8 @@ const openModal = (id) => {
         tab5.className = "tab";
         tab6.className = "tab";
         modalWindow.style.display = "none";
+        modalOrderBlock.innerHTML = '';
+        reset();
     }
 
     const tab1 = document.getElementById("tab-1");
@@ -245,11 +249,22 @@ const openModal = (id) => {
     const tab5 = document.getElementById("tab-5");
     const tab6 = document.getElementById("tab-6");
     const tabContentBlock = document.getElementsByClassName("tab-content-block")[0];
+    const modalOrderBlock = document.getElementsByClassName("modal-order-block")[0];
 
     document.getElementById("total-price").textContent = document.getElementById("price-" + id).textContent;
 
+    const priceMultiplier = () => {
+        const counter = document.getElementById("counter-modal");
+        const totalPrice = document.getElementById("total-price");
+        totalPrice.textContent /= counter.value;
+    }
+
     tab1.onclick = () => {
+        if (selectedTab === "ready") {
+            priceMultiplier();
+        }
         if (selectedTab !== "sizes") {
+            modalOrderBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -261,7 +276,11 @@ const openModal = (id) => {
         }
     }
     tab2.onclick = () => {
+        if (selectedTab === "ready") {
+            priceMultiplier();
+        }
         if (selectedTab !== "breads") {
+            modalOrderBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -274,7 +293,11 @@ const openModal = (id) => {
     }
 
     tab3.onclick = () => {
+        if (selectedTab === "ready") {
+            priceMultiplier();
+        }
         if (selectedTab !== "vegetables") {
+            modalOrderBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -287,7 +310,11 @@ const openModal = (id) => {
     }
 
     tab4.onclick = () => {
+        if (selectedTab === "ready") {
+            priceMultiplier();
+        }
         if (selectedTab !== "sauces") {
+            modalOrderBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -300,7 +327,11 @@ const openModal = (id) => {
     }
 
     tab5.onclick = () => {
+        if (selectedTab === "ready") {
+            priceMultiplier();
+        }
         if (selectedTab !== "fillings") {
+            modalOrderBlock.innerHTML = '';
 
             const activeTab = document.getElementsByClassName("tab-active")[0];
             if (activeTab) {
@@ -313,6 +344,10 @@ const openModal = (id) => {
     }
 
     tab6.onclick = () => {
+        const counter = document.getElementById("counter-" + id);
+        const totalPrice = document.getElementById("total-price");
+        totalPrice.textContent *= counter.value;
+
         if (selectedTab !== "ready") {
             tabContentBlock.innerHTML = '';
 
@@ -417,8 +452,8 @@ const openModal = (id) => {
             const itemCounter = document.createElement("input");
             itemCounter.className = "item-counter";
             itemCounter.type = "text";
-            itemCounter.id = "counter-" + "modal";
-            itemCounter.value = 1;
+            itemCounter.id = "counter-modal";
+            itemCounter.value = document.getElementById("counter-" + id).value;
 
             const plusIcon = document.createElement("img");
             plusIcon.className = "plus-icon";
@@ -436,16 +471,18 @@ const openModal = (id) => {
                 addToBasket(itemButton);
             }
 
-            modalFooter.appendChild(itemAmount);
+            modalOrderBlock.appendChild(itemAmount);
 
-            modalFooter.appendChild(amountBlock);
+            modalOrderBlock.appendChild(amountBlock);
             amountBlock.appendChild(minusIcon);
             amountBlock.appendChild(itemCounter);
             amountBlock.appendChild(plusIcon);
 
-            modalFooter.appendChild(itemButton);
+            modalOrderBlock.appendChild(itemButton);
 
-            // доработать footer и сделать добавление в корзину итогового продукта
+            modalFooter.appendChild(modalOrderBlock);
+
+            // сделать стрелки и сделать добавление в корзину итогового продукта
 
             //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -492,6 +529,19 @@ let finalVegetables = ["Нет"];
 let finalSauces = ["Нет"];
 let finalFillings = ["Нет"];
 
+const reset = () => {
+    activeSize = "1x"
+    activeBread = "white-italian";
+    activeVegetables = [];
+    activeSauces = [];
+    activeFillings = [];
+
+    finalSize = "15 См";
+    finalBread = "Белый итальянский";
+    finalVegetables = ["Нет"];
+    finalSauces = ["Нет"];
+    finalFillings = ["Нет"];
+}
 
 const loadIngredients = () => {
     fetch("data.json")
@@ -571,7 +621,6 @@ const loadIngredients = () => {
                                 activeVegetables.splice(i, 1);
                                 totalPrice.textContent -= priceValue.textContent;
                                 finalVegetables.splice(i, 1);
-                                console.log(finalVegetables);
                                 if (finalVegetables.length === 0) {
                                     finalVegetables.push("Нет");
                                 }
@@ -608,7 +657,6 @@ const loadIngredients = () => {
                                 }
 
                                 finalVegetables.push(" " + document.getElementById('name-' + key).textContent);
-                                console.log(" " + finalVegetables);
                             }
                             if (selectedTab === "sauces") {
                                 activeSauces.push(key);
@@ -619,23 +667,18 @@ const loadIngredients = () => {
                                 }
 
                                 finalSauces.push(" " + document.getElementById('name-' + key).textContent);
-                                console.log(" " + finalSauces);
                             }
                             if (selectedTab === "fillings") {
                                 activeFillings.push(key);
                                 totalPrice.textContent -= -priceValue.textContent;
-
-                                console.log(finalFillings);
 
                                 if (finalFillings.includes("Нет")) {
                                     finalFillings = [];
                                 }
 
                                 finalFillings.push(" " + document.getElementById('name-' + key).textContent);
-                                console.log(" " + finalFillings);
                             }
                         }
-                        // теперь добавить суммирование цен и инфу на странице Готово
                     }
                 }
 
