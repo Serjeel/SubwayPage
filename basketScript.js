@@ -28,11 +28,17 @@ const addToBasket = (target) => {
 
     const itemCounter = document.getElementById("counter-" + target.id.split("-")[1]);
 
-    orderTitle.textContent = document.getElementById("item-" + target.id.split("-")[1])
-        .querySelector(".item-name").textContent;
+
+    orderTitle.textContent = document.getElementById("item-name-" + target.id.split("-")[1]).textContent
     orderAmount.textContent = itemCounter.value;
-    orderPrice.textContent = document.getElementById("price-" + target.id.split("-")[1])
-        .textContent * orderAmount.textContent + " руб.";
+
+    if (target.id.split("-")[1] === "modal") {
+        orderPrice.textContent = document.getElementById("price-" + target.id.split("-")[1])
+            .textContent + " руб.";
+    } else {
+        orderPrice.textContent = document.getElementById("price-" + target.id.split("-")[1])
+            .textContent * orderAmount.textContent + " руб.";
+    }
 
     orderItems.appendChild(orderTitle);
     orderItems.appendChild(orderAmount);
@@ -46,6 +52,11 @@ const addToBasket = (target) => {
     deleteIcon.onclick = () => {
         document.getElementById("order-" + orderItems.id.split("-")[1]).remove();
         document.getElementById("sum").textContent -= orderPrice.textContent.split(" ")[0];
+
+        for (let i = 0; i < item.childElementCount; i++) {
+            document.getElementsByClassName("order-items")[i].id = "order-" + (i + 1);
+            console.log(i);
+        }
     }
     /*   button.className = "item-button-active";
        button.textContent = "В КОРЗИНЕ";

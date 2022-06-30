@@ -98,8 +98,6 @@ category7.onclick = () => {
     }
 }
 
-let counterValue = 1;
-
 const loadItems = () => {
     fetch("data.json")
         .then(response => response.json())
@@ -222,15 +220,67 @@ const loadItems = () => {
         });
 }
 
-let selectedTab = "sizes";
+let selectedTab;
+
+const reset = () => {
+    activeSize = "1x"
+    activeBread = "white-italian";
+    activeVegetables = [];
+    activeSauces = [];
+    activeFillings = [];
+
+    finalSize = "15 См";
+    finalBread = "Белый итальянский";
+    finalVegetables = ["Нет"];
+    finalSauces = ["Нет"];
+    finalFillings = ["Нет"];
+}
+
+const arrowForwardClick = () => {
+    switch (selectedTab) {
+        case "sizes": document.getElementById("tab-2").click();
+            break;
+
+        case "breads": document.getElementById("tab-3").click();
+            break;
+
+        case "vegetables": document.getElementById("tab-4").click();
+            break;
+
+        case "sauces": document.getElementById("tab-5").click();
+            break;
+
+        case "fillings": document.getElementById("tab-6").click();
+            break;
+    }
+}
+
+const arrowBackClick = () => {
+    switch (selectedTab) {
+        case "ready": document.getElementById("tab-5").click();
+            break;
+
+        case "fillings": document.getElementById("tab-4").click();
+            break;
+
+        case "sauces": document.getElementById("tab-3").click();
+            break;
+
+        case "vegetables": document.getElementById("tab-2").click();
+            break;
+
+        case "breads": document.getElementById("tab-1").click();
+            break;
+    }
+}
 
 const openModal = (id) => {
     const modalWindow = document.getElementsByClassName("modal-window")[0];
     const closeIcon = document.getElementsByClassName("close-icon")[0];
     modalWindow.style.display = "flex";
     closeIcon.onclick = () => {
-        selectedTab = "sizes"
-        tab1.className = "tab-active";
+        selectedTab = null;
+        tab1.className = "tab";
         tab2.className = "tab";
         tab3.className = "tab";
         tab4.className = "tab";
@@ -242,7 +292,6 @@ const openModal = (id) => {
     }
 
     const tab1 = document.getElementById("tab-1");
-    tab1.className = "tab-active";
     const tab2 = document.getElementById("tab-2");
     const tab3 = document.getElementById("tab-3");
     const tab4 = document.getElementById("tab-4");
@@ -251,13 +300,15 @@ const openModal = (id) => {
     const tabContentBlock = document.getElementsByClassName("tab-content-block")[0];
     const modalOrderBlock = document.getElementsByClassName("modal-order-block")[0];
 
-    document.getElementById("total-price").textContent = document.getElementById("price-" + id).textContent;
+    document.getElementById("price-modal").textContent = document.getElementById("price-" + id).textContent;
 
     const priceMultiplier = () => {
         const counter = document.getElementById("counter-modal");
-        const totalPrice = document.getElementById("total-price");
+        const totalPrice = document.getElementById("price-modal");
         totalPrice.textContent /= counter.value;
     }
+
+    const arrowsBlock = document.getElementsByClassName("arrows-block")[0];
 
     tab1.onclick = () => {
         if (selectedTab === "ready") {
@@ -273,8 +324,50 @@ const openModal = (id) => {
             tab1.className = "tab-active";
             selectedTab = "sizes";
             loadIngredients();
+
+            arrowsBlock.innerHTML = '';
+
+            const arrowForward = document.createElement("button");
+            arrowForward.className = "arrow";
+            arrowForward.id = "arrow-forward";
+            arrowForward.textContent = "Вперёд ᐳ";
+            arrowForward.onclick = () => {
+                arrowForwardClick();
+            }
+
+            arrowsBlock.style.justifyContent = "end"
+
+            arrowsBlock.appendChild(arrowForward);
         }
     }
+
+    tab1.click();
+
+    const createArrowsMiddle = () => {
+        arrowsBlock.innerHTML = '';
+
+        const arrowForward = document.createElement("button");
+        arrowForward.className = "arrow";
+        arrowForward.id = "arrow-forward";
+        arrowForward.textContent = "Вперёд ᐳ";
+        arrowForward.onclick = () => {
+            arrowForwardClick();
+        }
+
+        const arrowBack = document.createElement("button");
+        arrowBack.className = "arrow";
+        arrowBack.id = "arrow-back";
+        arrowBack.textContent = "ᐸ Назад";
+        arrowBack.onclick = () => {
+            arrowBackClick();
+        }
+
+        arrowsBlock.style.justifyContent = "space-between"
+
+        arrowsBlock.appendChild(arrowBack);
+        arrowsBlock.appendChild(arrowForward);
+    }
+
     tab2.onclick = () => {
         if (selectedTab === "ready") {
             priceMultiplier();
@@ -289,6 +382,7 @@ const openModal = (id) => {
             tab2.className = "tab-active";
             selectedTab = "breads";
             loadIngredients();
+            createArrowsMiddle();
         }
     }
 
@@ -306,6 +400,7 @@ const openModal = (id) => {
             tab3.className = "tab-active";
             selectedTab = "vegetables";
             loadIngredients();
+            createArrowsMiddle();
         }
     }
 
@@ -323,6 +418,7 @@ const openModal = (id) => {
             tab4.className = "tab-active";
             selectedTab = "sauces";
             loadIngredients();
+            createArrowsMiddle();
         }
     }
 
@@ -340,12 +436,13 @@ const openModal = (id) => {
             tab5.className = "tab-active";
             selectedTab = "fillings";
             loadIngredients();
+            createArrowsMiddle();
         }
     }
 
     tab6.onclick = () => {
         const counter = document.getElementById("counter-" + id);
-        const totalPrice = document.getElementById("total-price");
+        const totalPrice = document.getElementById("price-modal");
         totalPrice.textContent *= counter.value;
 
         if (selectedTab !== "ready") {
@@ -357,6 +454,8 @@ const openModal = (id) => {
             }
             tab6.className = "tab-active";
             selectedTab = "ready";
+
+            arrowsBlock.innerHTML = '';
 
             const imageBlock = document.createElement("div");
             imageBlock.className = "image-block";
@@ -428,6 +527,7 @@ const openModal = (id) => {
 
             const finalOrderTitle = document.createElement("p");
             finalOrderTitle.className = "final-order-title";
+            finalOrderTitle.id = "item-name-modal";
             finalOrderTitle.textContent = document.getElementById("item-name-" + id).textContent;
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -468,7 +568,30 @@ const openModal = (id) => {
             //itemButton.id = "button-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
             itemButton.textContent = "В КОРЗИНУ";
             itemButton.onclick = () => {
-                addToBasket(itemButton);
+                addToBasket(modalFooter);
+
+                const storageElements = [
+                    {
+                        activeSize,
+                        activeBread,
+                        activeVegetables,
+                        activeSauces,
+                        activeFillings,
+
+                        finalSize,
+                        finalBread,
+                        finalVegetables,
+                        finalSauces,
+                        finalFillings,
+
+                    }
+                ]
+                sessionStorage.removeItem("storageElements");
+                sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+                console.log(sessionStorage.getItem("storageElements"));
+                console.log(finalSize);
+
+                closeIcon.click();
             }
 
             modalOrderBlock.appendChild(itemAmount);
@@ -529,20 +652,6 @@ let finalVegetables = ["Нет"];
 let finalSauces = ["Нет"];
 let finalFillings = ["Нет"];
 
-const reset = () => {
-    activeSize = "1x"
-    activeBread = "white-italian";
-    activeVegetables = [];
-    activeSauces = [];
-    activeFillings = [];
-
-    finalSize = "15 См";
-    finalBread = "Белый итальянский";
-    finalVegetables = ["Нет"];
-    finalSauces = ["Нет"];
-    finalFillings = ["Нет"];
-}
-
 const loadIngredients = () => {
     fetch("data.json")
         .then(response => response.json())
@@ -588,7 +697,7 @@ const loadIngredients = () => {
                 priceCurrency.textContent = "руб.";
 
                 item.onclick = () => {
-                    const totalPrice = document.getElementById("total-price");
+                    const totalPrice = document.getElementById("price-modal");
                     const itemActive = document.getElementsByClassName("modal-item-active")[0];
                     const previousElement = document.getElementsByClassName("modal-item-active")[0];
 

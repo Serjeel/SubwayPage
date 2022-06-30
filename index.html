@@ -34,12 +34,6 @@
                     <p class="price-header">Цена</p>
                 </div>
                 <div class="order-items-block">
-                    <!--  <div class="order-items" id="order-1">
-                        <p class="order-title">Ffgngtrr</p>
-                        <p class="order-amount">1</p>
-                        <p class="order-price">1000 руб.</p>
-                        <img class="deleteIcon" id="delete-1" src="images/trash.svg"/>
-                    </div> -->
                 </div>
                 <div>
                     <div class="sum">
@@ -53,29 +47,8 @@
         </div>
         <div class="menu-block">
             <div class="items-block">
-                <!--    <div class="item" id="item-1">
-                    <img class="logo" src="i/Subway_logo.png" />
-                    <img class="item-image" src="i/Burger1.jpg" />
-                    <p class="item-name">Овощной</p>
-                    <p class="item-composition">Соус и овощи на выбор</p>
-                    <div class="item-price-block">
-                        <p class="price-text">Цена:</p>
-                        <p class="price-value" id="price-1">110</p>
-                        <p class="price-currency">руб.</p>
-                    </div>
-                    <p class="item-amount">Количество</p>
-                    <div class="amount-block">
-                        <img class="minus-icon" src="i/minus.svg" id="minus-1" onclick="minusClick(event.target)">
-                        <input class="item-counter" type="text" id="counter-1" value="1">
-                        <img class="plus-icon" src="i/plus.svg" id="plus-1" onclick="plusClick(event.target)">
-                    </div>
-                    <button class="item-button" id="button-1" onclick="addToBasket(event.target)">В КОРЗИНУ</button>
-                </div> -->
             </div>
         </div>
-        <script src="counterScript.js"></script>
-        <script src="basketScript.js"></script>
-        <script src="loadingFromFile.js"></script>
     </div>
     <div class="modal-window">
         <div class="modal-content">
@@ -94,63 +67,23 @@
                 </div>
             </div>
             <div class="arrows-block">
-                <button class="arrow">Назад</button>
-                <button class="arrow">Вперёд</button>
             </div>
             <div class="tab-content-block">
-                <!--<div class="image-block">
-                    <img class="result-image" src="i/result_sandwich.jpg">
-                </div>
-                
-                <div class="final-order-block">
-                    <p class="final-order-ready">Ваш сендвич готов!</p>
-                    <div class="final-order-size">
-                        <p class="final-order-size-text">Размер: </p>
-                        <p class="final-order-size-value">Нет</p>
-                    </div>
-                    <div class="final-order-bread">
-                        <p class="final-order-bread-text">Хлеб: </p>
-                        <p class="final-order-bread-value">Нет</p>
-                    </div>
-                    <div class="final-order-vegetables">
-                        <p class="final-order-vegetables-text">Овощи: </p>
-                        <p class="final-order-vegetables-value">Нет</p>
-                    </div>
-                    <div class="final-order-sauces">
-                        <p class="final-order-sauces-text">Соусы: </p>
-                        <p class="final-order-sauces-value">Нет</p>
-                    </div>
-                    <div class="final-order-toppings">
-                        <p class="final-order-toppings-text">Начинка: </p>
-                        <p class="final-order-toppings-value">Нет</p>
-                    </div>
-                    <p class="final-order-title">Овощной</p>
-                </div>-->
             </div>
             <div class="modal-footer">
                 <div class="item-price-block">
                     <p class="price-text">Цена:</p>
-                    <p class="price-value" id="total-price"></p>
+                    <p class="price-value" id="price-modal"></p>
                     <p class="price-currency">руб.</p>
                 </div>
                 <div class="modal-order-block">
                 </div>
-                <!--<p class="item-amount">Количество</p>
-                <div class="amount-block">
-                    <img class="minus-icon" src="i/minus.svg" id="minus-1" onclick="minusClick(event.target)">
-                    <input class="item-counter" type="text" id="counter-1" value="1">
-                    <img class="plus-icon" src="i/plus.svg" id="plus-1" onclick="plusClick(event.target)">
-                </div>
-                <div class="item-price-block">
-                    <p class="price-text">Цена:</p>
-                    <p class="price-value" id="price-1">110</p>
-                    <p class="price-currency">руб.</p>
-                </div>
-                <button class="item-button" id="button-1" onclick="addToBasket(event.target)">В КОРЗИНУ</button>
-                -->
             </div>
         </div>
     </div>
+    <script src="counterScript.js"></script>
+    <script src="basketScript.js"></script>
+    <script src="loadingFromFile.js"></script>
 </body>
 
 </html>
