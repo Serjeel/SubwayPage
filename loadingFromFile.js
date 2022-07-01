@@ -570,8 +570,14 @@ const openModal = (id) => {
             itemButton.onclick = () => {
                 addToBasket(modalFooter);
 
-                const storageElements = [
+                const obj =
                     {
+                        id: document.getElementsByClassName("sandwich-title").length,
+                        itemId: id,
+                        name: finalOrderTitle.textContent,
+                        count: itemCounter.value,
+                        price: totalPrice.textContent,
+
                         activeSize,
                         activeBread,
                         activeVegetables,
@@ -583,13 +589,13 @@ const openModal = (id) => {
                         finalVegetables,
                         finalSauces,
                         finalFillings,
-
+                        // перебрать добавленную инфу, а потом сделать id, отталкиваясь от последнего номера.
                     }
-                ]
-                sessionStorage.removeItem("storageElements");
+
+                    storageElements.push(obj)
+                
                 sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
                 console.log(sessionStorage.getItem("storageElements"));
-                console.log(finalSize);
 
                 closeIcon.click();
             }
@@ -604,10 +610,6 @@ const openModal = (id) => {
             modalOrderBlock.appendChild(itemButton);
 
             modalFooter.appendChild(modalOrderBlock);
-
-            // сделать стрелки и сделать добавление в корзину итогового продукта
-
-            //////////////////////////////////////////////////////////////////////////////////////////////
 
             tabContentBlock.appendChild(imageBlock);
             imageBlock.appendChild(resultImage);
@@ -639,6 +641,8 @@ const openModal = (id) => {
         }
     }
 }
+
+const storageElements = [];
 
 let activeSize = "1x"
 let activeBread = "white-italian";

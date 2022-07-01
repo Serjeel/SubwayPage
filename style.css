@@ -108,7 +108,8 @@ body {
 }
 
 .title-header,
-.order-title {
+.order-title,
+.sandwich-title {
     width: 100px;
 }
 
@@ -132,6 +133,11 @@ body {
     align-items: center;
     width: 48px;
     text-align: center;
+}
+
+.sandwich-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .deleteIcon {
