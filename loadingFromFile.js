@@ -530,7 +530,6 @@ const openModal = (id) => {
             finalOrderTitle.id = "item-name-modal";
             finalOrderTitle.textContent = document.getElementById("item-name-" + id).textContent;
 
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////
             const modalFooter = document.getElementsByClassName("modal-footer")[0];
             modalFooter.id = "item-modal";
 
@@ -543,7 +542,6 @@ const openModal = (id) => {
 
             const minusIcon = document.createElement("img");
             minusIcon.className = "minus-icon";
-            // minusIcon.id = "minus-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
             minusIcon.src = "i/minus.svg";
             minusIcon.onclick = () => {
                 minusClick(modalFooter);
@@ -557,7 +555,6 @@ const openModal = (id) => {
 
             const plusIcon = document.createElement("img");
             plusIcon.className = "plus-icon";
-            // plusIcon.id = "plus-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
             plusIcon.src = "i/plus.svg";
             plusIcon.onclick = () => {
                 plusClick(modalFooter);
@@ -565,7 +562,6 @@ const openModal = (id) => {
 
             const itemButton = document.createElement("button");
             itemButton.className = "item-button";
-            //itemButton.id = "button-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
             itemButton.textContent = "В КОРЗИНУ";
             itemButton.onclick = () => {
                 addToBasket(modalFooter);
@@ -589,13 +585,11 @@ const openModal = (id) => {
                         finalVegetables,
                         finalSauces,
                         finalFillings,
-                        // перебрать добавленную инфу, а потом сделать id, отталкиваясь от последнего номера.
                     }
 
                     storageElements.push(obj)
                 
                 sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
-                console.log(sessionStorage.getItem("storageElements"));
 
                 closeIcon.click();
             }
@@ -642,7 +636,7 @@ const openModal = (id) => {
     }
 }
 
-const storageElements = [];
+let storageElements = [];
 
 let activeSize = "1x"
 let activeBread = "white-italian";
@@ -810,4 +804,5 @@ const loadIngredients = () => {
 window.onload = () => {
     category3.className = "category-active";
     loadItems();
+    sessionStorage.setItem("storageElements", JSON.stringify([]));
 };

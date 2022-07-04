@@ -140,7 +140,7 @@ body {
     text-decoration: underline;
 }
 
-.deleteIcon {
+.delete-icon {
     width: 15px;
     cursor: pointer;
 }

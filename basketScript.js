@@ -16,28 +16,27 @@ const addToBasket = (target) => {
         orderTitle.className = "sandwich-title";
         orderTitle.id = "sandwich-" + (document.getElementsByClassName("sandwich-title").length + 1);
         orderTitle.onclick = () => {
-            let x = sessionStorage.getItem("storageElements");
-            x = JSON.parse(x);
-            console.log(x);
-            const y = x.find(obj => obj.id === orderTitle.id.split("-")[1] - 0);
-            console.log(y.itemId);
+            storageElements = sessionStorage.getItem("storageElements");
+            storageElements = JSON.parse(storageElements);
 
-            activeSize = y.activeSize;
-            activeBread = y.activeBread;
-            activeVegetables = y.activeVegetables;
-            activeSauces = y.activeSauces;
-            activeFillings = y.activeFillings;
+            const selectedElement = storageElements.find(obj => obj.id === orderTitle.id.split("-")[1] - 0);
 
-            finalSize = y.finalSize;
-            finalBread = y.finalBread;
-            finalVegetables = y.finalVegetables;
-            finalSauces = y.finalSauces;
-            finalFillings = y.finalFillings;
+            activeSize = selectedElement.activeSize;
+            activeBread = selectedElement.activeBread;
+            activeVegetables = selectedElement.activeVegetables;
+            activeSauces = selectedElement.activeSauces;
+            activeFillings = selectedElement.activeFillings;
 
-            openModal(y.itemId);
+            finalSize = selectedElement.finalSize;
+            finalBread = selectedElement.finalBread;
+            finalVegetables = selectedElement.finalVegetables;
+            finalSauces = selectedElement.finalSauces;
+            finalFillings = selectedElement.finalFillings;
 
-            document.getElementById("price-modal").textContent = y.price / y.count;
-            document.getElementById("counter-" + y.itemId).value = y.count;
+            openModal(selectedElement.itemId);
+
+            document.getElementById("price-modal").textContent = selectedElement.price / selectedElement.count;
+            document.getElementById("counter-" + selectedElement.itemId).value = selectedElement.count;
         }
 
     } else {
@@ -51,7 +50,7 @@ const addToBasket = (target) => {
     orderPrice.className = "order-price";
 
     const deleteIcon = document.createElement("img");
-    deleteIcon.className = "deleteIcon";
+    deleteIcon.className = "delete-icon";
     deleteIcon.id = "delete-" + (item.childElementCount + 1);
     deleteIcon.src = "i/trash.svg";
 
@@ -84,17 +83,25 @@ const addToBasket = (target) => {
         document.getElementById("order-" + orderItems.id.split("-")[1]).remove();
         document.getElementById("sum").textContent -= orderPrice.textContent.split(" ")[0];
 
+        const deleteId = deleteIcon.id.split("-")[1] - 0;
+        const deletedSandwichId = '';
+
+        //const y = x.filter(item => item.id !== 1);
+
+        // Так как сбой в системе удалил часть кода, отвечавшую за удаление из SessionStorage,
+        //  надо его восстанавливать. В верхней строке начальная версия
+
+
         for (let i = 0; i < item.childElementCount; i++) {
             document.getElementsByClassName("order-items")[i].id = "order-" + (i + 1);
+            document.getElementsByClassName("delete-icon")[i].id = "delete-" + (i + 1);
         }
 
-        x = sessionStorage.getItem("storageElements");
-        x = JSON.parse(x);
+        const sandwichCount = document.getElementsByClassName("sandwich-title").length;
 
-        const y = x.filter(item => item.id !== 1);
-        console.log(y.itemId);
-
-        // реализоать удаление элемента и по мелочи поисправлять
+        for (let i = 0; i < sandwichCount; i++) {
+            document.getElementsByClassName("sandwich-title")[i].id = "sandwich-" + (i + 1);
+        }
     }
 
 
