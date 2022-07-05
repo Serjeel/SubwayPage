@@ -98,6 +98,20 @@ category7.onclick = () => {
     }
 }
 
+// 1. Сделать так, чтобы при переключении каунтеры не сбрасывались до единицы
+// 2. Сделать возможность редактирования сэндвичей из модалки
+
+let counters = [];
+
+fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+        for (let i in data.menu) {
+            counters.push(1);
+        }
+        console.log(counters);
+    })
+
 const loadItems = () => {
     fetch("data.json")
         .then(response => response.json())
@@ -172,7 +186,7 @@ const loadItems = () => {
                 itemCounter.className = "item-counter";
                 itemCounter.type = "text";
                 itemCounter.id = "counter-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
-                itemCounter.value = 1;
+                //itemCounter.value = counters[i]; YНадо как-то взять i не из отфильтрованной data
 
                 const plusIcon = document.createElement("img");
                 plusIcon.className = "plus-icon";
@@ -566,30 +580,33 @@ const openModal = (id) => {
             itemButton.onclick = () => {
                 addToBasket(modalFooter);
 
+                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+
                 const obj =
-                    {
-                        id: document.getElementsByClassName("sandwich-title").length,
-                        itemId: id,
-                        name: finalOrderTitle.textContent,
-                        count: itemCounter.value,
-                        price: totalPrice.textContent,
+                {
+                    id: document.getElementsByClassName("sandwich-title").length,
+                    itemId: id,
+                    name: finalOrderTitle.textContent,
+                    count: itemCounter.value,
+                    price: totalPrice.textContent,
 
-                        activeSize,
-                        activeBread,
-                        activeVegetables,
-                        activeSauces,
-                        activeFillings,
+                    activeSize,
+                    activeBread,
+                    activeVegetables,
+                    activeSauces,
+                    activeFillings,
 
-                        finalSize,
-                        finalBread,
-                        finalVegetables,
-                        finalSauces,
-                        finalFillings,
-                    }
+                    finalSize,
+                    finalBread,
+                    finalVegetables,
+                    finalSauces,
+                    finalFillings,
+                }
 
-                    storageElements.push(obj)
-                
+                storageElements.push(obj)
+
                 sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+                console.log(storageElements);
 
                 closeIcon.click();
             }

@@ -80,17 +80,25 @@ const addToBasket = (target) => {
     sum.textContent -= -orderPrice.textContent.split(' ')[0];
 
     deleteIcon.onclick = () => {
+        const deleteId = deleteIcon.id.split("-")[1] - 0;
+
+        console.log(deleteId);
+        console.log("order-" + deleteId);
+        console.log(document.getElementById("order-" + deleteId));
+
+        if (document.getElementById("order-" + deleteId).querySelector(".sandwich-title")) {
+            const deletedSandwichId = document.getElementById("order-" + deleteId).querySelector(".sandwich-title").id.split("-")[1] - 0;
+            let storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+            storageElements = storageElements.filter(item => item.id !== deletedSandwichId);
+            for (let i = 0; i < storageElements.length; i++) {
+                storageElements[i].id = i + 1;
+            }
+            sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+            console.log(storageElements);
+        }
+
         document.getElementById("order-" + orderItems.id.split("-")[1]).remove();
         document.getElementById("sum").textContent -= orderPrice.textContent.split(" ")[0];
-
-        const deleteId = deleteIcon.id.split("-")[1] - 0;
-        const deletedSandwichId = '';
-
-        //const y = x.filter(item => item.id !== 1);
-
-        // Так как сбой в системе удалил часть кода, отвечавшую за удаление из SessionStorage,
-        //  надо его восстанавливать. В верхней строке начальная версия
-
 
         for (let i = 0; i < item.childElementCount; i++) {
             document.getElementsByClassName("order-items")[i].id = "order-" + (i + 1);
