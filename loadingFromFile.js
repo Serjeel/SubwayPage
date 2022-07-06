@@ -186,7 +186,7 @@ const loadItems = () => {
                 itemCounter.className = "item-counter";
                 itemCounter.type = "text";
                 itemCounter.id = "counter-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
-                itemCounter.value = counters[itemCounter.id.split("-")[1] - 1]; 
+                itemCounter.value = counters[itemCounter.id.split("-")[1] - 1];
 
                 const plusIcon = document.createElement("img");
                 plusIcon.className = "plus-icon";
@@ -578,74 +578,84 @@ const openModal = (id, flag, sandwichId) => {
             itemButton.className = "item-button";
 
             if (flag === "creating") {
-            itemButton.textContent = "В КОРЗИНУ";
-            itemButton.onclick = () => {
-                addToBasket(modalFooter);
+                itemButton.textContent = "В КОРЗИНУ";
+                itemButton.onclick = () => {
+                    addToBasket(modalFooter);
 
-                document.getElementById("counter-" + id).value = itemCounter.value;
+                    document.getElementById("counter-" + id).value = itemCounter.value;
 
-                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
-                const object =
-                {
-                    id: document.getElementsByClassName("sandwich-title").length,
-                    itemId: id,
-                    name: finalOrderTitle.textContent,
-                    count: itemCounter.value,
-                    price: totalPrice.textContent,
+                    storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+                    const object =
+                    {
+                        id: document.getElementsByClassName("sandwich-title").length,
+                        itemId: id,
+                        name: finalOrderTitle.textContent,
+                        count: itemCounter.value,
+                        price: totalPrice.textContent,
 
-                    activeSize,
-                    activeBread,
-                    activeVegetables,
-                    activeSauces,
-                    activeFillings,
+                        activeSize,
+                        activeBread,
+                        activeVegetables,
+                        activeSauces,
+                        activeFillings,
 
-                    finalSize,
-                    finalBread,
-                    finalVegetables,
-                    finalSauces,
-                    finalFillings,
+                        finalSize,
+                        finalBread,
+                        finalVegetables,
+                        finalSauces,
+                        finalFillings,
+                    }
+
+                    storageElements.push(object)
+                    sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+                    console.log(storageElements);
+
+                    closeIcon.click();
                 }
+            } else {
+                itemButton.textContent = "ИЗМЕНИТЬ";
+                itemButton.onclick = () => {
 
-                storageElements.push(object)
-                sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
-                console.log(storageElements);
+                    document.getElementById("counter-" + id).value = itemCounter.value;
 
-                closeIcon.click();
+                    console.log(sandwichId);
+
+                    storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+                    const object = storageElements.find(obj => obj.id === sandwichId);
+
+                    const previousPrice = object.price;
+
+                    object.count = itemCounter.value;
+                    object.price = totalPrice.textContent;
+                    object.activeSize = activeSize;
+                    object.activeBread = activeBread;
+                    object.activeVegetables = activeVegetables;
+                    object.activeSauces = activeSauces;
+                    object.activeFillings = activeFillings;
+
+                    object.finalSize = finalSize;
+                    object.finalBread = finalBread;
+                    object.finalVegetables = finalVegetables;
+                    object.finalSauces = finalSauces;
+                    object.finalFillings = finalFillings;
+
+                    console.log(object);
+                    console.log(sandwichId);
+
+                    storageElements = storageElements.filter(obj => obj.id !== sandwichId);
+                    storageElements.push(object);
+                    sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+
+                    document.getElementById("order-amount-" + sandwichId).textContent = object.count;
+                    document.getElementById("order-price-" + sandwichId).textContent = object.price + " руб.";
+
+                    const sum = document.getElementById("sum");
+                    sum.textContent -= previousPrice;
+                    sum.textContent -= -object.price;
+
+                    closeIcon.click();
+                }
             }
-        } else {
-            itemButton.textContent = "ИЗМЕНИТЬ";
-            itemButton.onclick = () => {
-                redactBasket(sandwichId);
-
-                document.getElementById("counter-" + id).value = itemCounter.value;
-
-                console.log(sandwichId);
-
-                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
-                const object = storageElements.find(obj => obj.id === sandwichId);
-
-                object.activeSize = activeSize,
-                object.activeBread = activeBread;
-                object.activeVegetables = activeVegetables;
-                object.activeSauces = activeSauces;
-                object.activeFillings = activeFillings;
-
-                object.finalSize = finalSize;
-                object.finalBread = finalBread;
-                object.finalVegetables = finalVegetables;
-                object.finalSauces = finalSauces;
-                object.finalFillings = finalFillings;
-
-                console.log(object);
-                console.log(sandwichId);
-
-                storageElements = storageElements.filter(obj => obj.id !== sandwichId);
-                storageElements.push(object);
-                sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
-
-                closeIcon.click();
-            }
-        }
             modalOrderBlock.appendChild(itemAmount);
 
             modalOrderBlock.appendChild(amountBlock);

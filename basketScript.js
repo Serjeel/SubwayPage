@@ -100,7 +100,7 @@ const addToBasket = (target) => {
         }
 
         document.getElementById("order-" + orderItems.id.split("-")[1]).remove();
-        document.getElementById("sum").textContent -= orderPrice.textContent.split(" ")[0];
+        sum.textContent -= orderPrice.textContent.split(" ")[0];
 
         for (let i = 0; i < item.childElementCount; i++) {
             document.getElementsByClassName("order-items")[i].id = "order-" + (i + 1);
@@ -125,12 +125,4 @@ const addToBasket = (target) => {
        }
 
    }*/
-}
-
-const redactBasket = (target) => {
-    const item = document.getElementsByClassName("order-items-block")[0];
-
-    const orderItems = document.getElementById();
-    
-    // Добавить изменения в сами ордеры. Здесь либо в openModal
 }
