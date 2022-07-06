@@ -10,11 +10,19 @@ const addToBasket = (target) => {
     orderItems.className = "order-items";
     orderItems.id = "order-" + (item.childElementCount + 1)
 
+    const orderAmount = document.createElement("p");
+    orderAmount.className = "order-amount";
+
+    const orderPrice = document.createElement("p");
+    orderPrice.className = "order-price";
+
     const orderTitle = document.createElement("p");
     if (target.id.split("-")[1] === "modal") {
 
         orderTitle.className = "sandwich-title";
         orderTitle.id = "sandwich-" + (document.getElementsByClassName("sandwich-title").length + 1);
+        orderAmount.id = "order-amount-" + (document.getElementsByClassName("sandwich-title").length + 1);
+        orderPrice.id = "order-price-" + (document.getElementsByClassName("sandwich-title").length + 1);
         orderTitle.onclick = () => {
             storageElements = sessionStorage.getItem("storageElements");
             storageElements = JSON.parse(storageElements);
@@ -33,7 +41,7 @@ const addToBasket = (target) => {
             finalSauces = selectedElement.finalSauces;
             finalFillings = selectedElement.finalFillings;
 
-            openModal(selectedElement.itemId);
+            openModal(selectedElement.itemId, "redacting", selectedElement.id);
 
             document.getElementById("price-modal").textContent = selectedElement.price / selectedElement.count;
             document.getElementById("counter-" + selectedElement.itemId).value = selectedElement.count;
@@ -42,12 +50,6 @@ const addToBasket = (target) => {
     } else {
         orderTitle.className = "order-title";
     }
-
-    const orderAmount = document.createElement("p");
-    orderAmount.className = "order-amount";
-
-    const orderPrice = document.createElement("p");
-    orderPrice.className = "order-price";
 
     const deleteIcon = document.createElement("img");
     deleteIcon.className = "delete-icon";
@@ -125,3 +127,10 @@ const addToBasket = (target) => {
    }*/
 }
 
+const redactBasket = (target) => {
+    const item = document.getElementsByClassName("order-items-block")[0];
+
+    const orderItems = document.getElementById();
+    
+    // Добавить изменения в сами ордеры. Здесь либо в openModal
+}

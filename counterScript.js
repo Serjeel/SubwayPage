@@ -3,7 +3,7 @@ const plusClick = (target) => {
     const counter = document.getElementById("counter-" + target.id.split("-")[1]);
     if (totalPrice) {
         totalPrice.textContent /= counter.value;
-        //counters[target.id.split("-")[1] - 1] -= -1; Меняет каунтеры на всех вкладках. Нужен другой id
+        counters[target.id.split("-")[1] - 1] -= -1;
         counter.value -= -1;
         totalPrice.textContent *= counter.value;
     } else {
@@ -18,7 +18,7 @@ const minusClick = (target) => {
     if (value >= 2) {
         if (totalPrice) {
             totalPrice.textContent /= counter.value;
-            //counters[target.id.split("-")[1] - 1] -= 1;
+            counters[target.id.split("-")[1] - 1] -= 1;
             counter.value -= 1;
             totalPrice.textContent *= counter.value;
         } else {

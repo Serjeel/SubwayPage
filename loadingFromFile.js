@@ -186,7 +186,7 @@ const loadItems = () => {
                 itemCounter.className = "item-counter";
                 itemCounter.type = "text";
                 itemCounter.id = "counter-" + (json.menu.findIndex(product => product.name === data[i].name) + 1);
-                //itemCounter.value = counters[i]; YНадо как-то взять i не из отфильтрованной data
+                itemCounter.value = counters[itemCounter.id.split("-")[1] - 1]; 
 
                 const plusIcon = document.createElement("img");
                 plusIcon.className = "plus-icon";
@@ -203,7 +203,7 @@ const loadItems = () => {
                 itemButton.onclick = () => {
                     if (selectedCategory === "sandwiches") {
                         const id = itemButton.id.split("-")[1];
-                        openModal(id);
+                        openModal(id, "creating");
                         loadIngredients();
                     } else {
                         addToBasket(itemButton);
@@ -288,7 +288,7 @@ const arrowBackClick = () => {
     }
 }
 
-const openModal = (id) => {
+const openModal = (id, flag, sandwichId) => {
     const modalWindow = document.getElementsByClassName("modal-window")[0];
     const closeIcon = document.getElementsByClassName("close-icon")[0];
     modalWindow.style.display = "flex";
@@ -576,13 +576,16 @@ const openModal = (id) => {
 
             const itemButton = document.createElement("button");
             itemButton.className = "item-button";
+
+            if (flag === "creating") {
             itemButton.textContent = "В КОРЗИНУ";
             itemButton.onclick = () => {
                 addToBasket(modalFooter);
 
-                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+                document.getElementById("counter-" + id).value = itemCounter.value;
 
-                const obj =
+                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+                const object =
                 {
                     id: document.getElementsByClassName("sandwich-title").length,
                     itemId: id,
@@ -603,14 +606,46 @@ const openModal = (id) => {
                     finalFillings,
                 }
 
-                storageElements.push(obj)
-
+                storageElements.push(object)
                 sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
                 console.log(storageElements);
 
                 closeIcon.click();
             }
+        } else {
+            itemButton.textContent = "ИЗМЕНИТЬ";
+            itemButton.onclick = () => {
+                redactBasket(sandwichId);
 
+                document.getElementById("counter-" + id).value = itemCounter.value;
+
+                console.log(sandwichId);
+
+                storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
+                const object = storageElements.find(obj => obj.id === sandwichId);
+
+                object.activeSize = activeSize,
+                object.activeBread = activeBread;
+                object.activeVegetables = activeVegetables;
+                object.activeSauces = activeSauces;
+                object.activeFillings = activeFillings;
+
+                object.finalSize = finalSize;
+                object.finalBread = finalBread;
+                object.finalVegetables = finalVegetables;
+                object.finalSauces = finalSauces;
+                object.finalFillings = finalFillings;
+
+                console.log(object);
+                console.log(sandwichId);
+
+                storageElements = storageElements.filter(obj => obj.id !== sandwichId);
+                storageElements.push(object);
+                sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
+
+                closeIcon.click();
+            }
+        }
             modalOrderBlock.appendChild(itemAmount);
 
             modalOrderBlock.appendChild(amountBlock);
