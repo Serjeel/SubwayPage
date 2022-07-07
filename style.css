@@ -20,6 +20,7 @@ body {
 }
 
 .menu-categories {
+    cursor: pointer;
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -28,10 +29,6 @@ body {
     margin-bottom: 20px;
 }
 
-.menu-categories :hover {
-    background-color: var(--light-yellow-color);
-    cursor: pointer;
-}
 
 .category {
     display: flex;
@@ -41,6 +38,10 @@ body {
     height: 45px;
     margin: 0;
     font-size: 20px;
+}
+
+.category:hover {
+    background-color: #F6D846;
 }
 
 .category-active {

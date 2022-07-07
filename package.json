@@ -1,0 +1,23 @@
+{
+  "name": "subwaypage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "basketScript.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Serjeel/SubwayPage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Serjeel/SubwayPage/issues"
+  },
+  "homepage": "https://github.com/Serjeel/SubwayPage#readme",
+  "devDependencies": {
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  }
+}

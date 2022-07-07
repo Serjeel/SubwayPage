@@ -109,7 +109,6 @@ fetch("data.json")
         for (let i in data.menu) {
             counters.push(1);
         }
-        console.log(counters);
     })
 
 const loadItems = () => {
@@ -117,10 +116,7 @@ const loadItems = () => {
         .then(response => response.json())
         .then(json => {
 
-            const getFiltered = (menu) => {
-                return menu.category === selectedCategory;
-            }
-            const data = json.menu.filter(getFiltered)
+            const data = json.menu.filter(massive => massive.category === selectedCategory)
             for (let i in data) {
                 const mainBlock = document.getElementsByClassName("items-block")[0];
                 const item = document.createElement("div");
@@ -583,6 +579,7 @@ const openModal = (id, flag, sandwichId) => {
                     addToBasket(modalFooter);
 
                     document.getElementById("counter-" + id).value = itemCounter.value;
+                    counters[id - 1] = document.getElementById("counter-" + id).value - 0;
 
                     storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
                     const object =
@@ -608,7 +605,6 @@ const openModal = (id, flag, sandwichId) => {
 
                     storageElements.push(object)
                     sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
-                    console.log(storageElements);
 
                     closeIcon.click();
                 }
@@ -617,8 +613,7 @@ const openModal = (id, flag, sandwichId) => {
                 itemButton.onclick = () => {
 
                     document.getElementById("counter-" + id).value = itemCounter.value;
-
-                    console.log(sandwichId);
+                    counters[id - 1] = document.getElementById("counter-" + id).value - 0;
 
                     storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
                     const object = storageElements.find(obj => obj.id === sandwichId);
@@ -638,9 +633,6 @@ const openModal = (id, flag, sandwichId) => {
                     object.finalVegetables = finalVegetables;
                     object.finalSauces = finalSauces;
                     object.finalFillings = finalFillings;
-
-                    console.log(object);
-                    console.log(sandwichId);
 
                     storageElements = storageElements.filter(obj => obj.id !== sandwichId);
                     storageElements.push(object);

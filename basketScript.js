@@ -84,10 +84,6 @@ const addToBasket = (target) => {
     deleteIcon.onclick = () => {
         const deleteId = deleteIcon.id.split("-")[1] - 0;
 
-        console.log(deleteId);
-        console.log("order-" + deleteId);
-        console.log(document.getElementById("order-" + deleteId));
-
         if (document.getElementById("order-" + deleteId).querySelector(".sandwich-title")) {
             const deletedSandwichId = document.getElementById("order-" + deleteId).querySelector(".sandwich-title").id.split("-")[1] - 0;
             let storageElements = JSON.parse(sessionStorage.getItem("storageElements"));
@@ -96,7 +92,6 @@ const addToBasket = (target) => {
                 storageElements[i].id = i + 1;
             }
             sessionStorage.setItem("storageElements", JSON.stringify(storageElements));
-            console.log(storageElements);
         }
 
         document.getElementById("order-" + orderItems.id.split("-")[1]).remove();
