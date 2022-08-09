@@ -98,9 +98,6 @@ category7.onclick = () => {
     }
 }
 
-// 1. Сделать так, чтобы при переключении каунтеры не сбрасывались до единицы
-// 2. Сделать возможность редактирования сэндвичей из модалки
-
 let counters = [];
 
 fetch("data.json")
@@ -118,6 +115,22 @@ const loadItems = () => {
 
             const data = json.menu.filter(massive => massive.category === selectedCategory)
             for (let i in data) {
+
+                /*const mainBlock = document.getElementsByClassName("items-block")[0];
+
+                const item = document.createElement("item-counter");
+                item.count = 1;
+
+                if (data[i].market === "doner") {
+                    item.logoSrc = "i/Doner_logo.png"
+                } else if (data[i].market === "sfc") {
+                    item.logoSrc = "i/South_fried_chicken_logo.png"
+                } else {
+                    item.logoSrc = "i/Subway_logo.png"
+                }
+
+                mainBlock.appendChild(item);*/
+
                 const mainBlock = document.getElementsByClassName("items-block")[0];
                 const item = document.createElement("div");
                 item.className = "item";
@@ -176,6 +189,9 @@ const loadItems = () => {
                 minusIcon.src = "i/minus.svg";
                 minusIcon.onclick = () => {
                     minusClick(item);
+                    let counter = new Counter(5);
+                    counter.render();
+                    console.log(counter.render());
                 }
 
                 const itemCounter = document.createElement("input");
